@@ -147,7 +147,7 @@ const ParticleBackground = () => {
       }
 
       const geoParticles = new THREE.BufferGeometry().setFromPoints(thePoints);
-      geoParticles.translate(xMid, yMid - 10, 0); // -10 offset to center vertically
+      geoParticles.translate(xMid - 5, yMid - 10, 0); // -5 x offset (left), -10 y offset to center
       geoParticles.setAttribute('customColor', new THREE.Float32BufferAttribute(colors, 3));
       geoParticles.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
 
