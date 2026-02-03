@@ -70,7 +70,7 @@ html, body {
   align-items: center;
   gap: 20px;
   padding: 20px 40px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, transparent 100%);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0, 255, 204, 0.1);
   animation: slideDown 1s ease-out;
@@ -109,7 +109,7 @@ html, body {
   align-items: center;
   gap: 20px;
   padding: 20px 40px;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.3) 0%, transparent 100%);
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(0, 255, 204, 0.1);
   animation: slideUp 1s ease-out;
