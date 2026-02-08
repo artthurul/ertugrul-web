@@ -1,0 +1,16 @@
+.gradient-blinds-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none; /* allow UI in front to receive events */
+}
+
+/* make sure the internal canvas covers the area */
+.gradient-blinds-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
