@@ -50,20 +50,7 @@ const SplashPage = ({ onComplete }) => {
         innerGradient="linear-gradient(145deg,hsla(337, 40%, 45%, 0.55) 0%,hsla(337, 60%, 70%, 0.27) 100%)"
         />
       </div>
-      <div className="splash-decrypted-wrap">
-        <DecryptedText
-          text="Portfolyo Siteme Hoş Geldiniz Bu İlk Başlık"
-          parentClassName="splash-decrypted"
-          animateOn="view"
-          speed={50}
-            style={{
-              fontFamily: '"Droid Sans Mono", "Droid Sans", monospace',
-              fontSize: '28px',
-              fontWeight: 700,
-              color: '#fffffff5'
-            }}
-        />
-      </div>
+      
       <div className="splash-magicbento-wrap">
         <MagicBento cardColor={bgConfig.cardColor} onComplete={onComplete} />
       </div>
