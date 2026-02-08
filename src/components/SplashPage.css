@@ -1,0 +1,65 @@
+.splash-container {
+  width: 100vw;
+  height: 100vh;
+  background: #000000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  --splash-side-gap: 40px; /* shared gap used by right/left aligned elements */
+}
+
+.splash-content {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.splash-card-wrap {
+  /* place card near right edge, vertically centered; scale via --pc-card-scale */
+  --pc-card-scale: 1;
+  position: absolute;
+  right: var(--splash-side-gap);
+  top: 50%;
+  transform-origin: center center;
+  transform: translateY(-50%) scale(var(--pc-card-scale));
+  display: block;
+  pointer-events: auto;
+  z-index: 22;
+}
+
+.splash-decrypted-wrap {
+  position: absolute;
+  left: var(--splash-side-gap);
+  top: var(--splash-side-gap);
+  z-index: 20;
+}
+
+.splash-decrypted {
+  /* Minimal, inheritable text styling for DecryptedText wrapper.
+     Keep colors/typography subtle so it blends with the rest of the splash.
+     Use explicit values so rendering is consistent across browsers. */
+  color: inherit;
+  font-weight: 700;
+  font-size: clamp(18px, 2.6vw, 34px);
+  line-height: 1.05;
+  white-space: pre-wrap;
+  -webkit-font-smoothing: antialiased;
+}
+
+.splash-magicbento-wrap {
+  position: absolute;
+  left: var(--splash-side-gap);
+  top: calc(var(--splash-side-gap) + 3rem); /* moved up to sit under decrypted text */
+  z-index: 18;
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .splash-magicbento-wrap {
+    top: calc(var(--splash-side-gap) + 2.6rem);
+    left: calc(var(--splash-side-gap) * 0.8);
+  }
+}
