@@ -16,14 +16,14 @@ const cardData = [
   },
   {
     color: '#060010',
-    title: 'YOU',
-    description: 'Code Love\nTo Your Life\n ',
+    title: 'THE MIND',
+    description: 'Not Just Systems,\nBut Also Love Coding Love,\nThe Essence of Creation',
     label: 'CODE'
   },
   {
     color: '#060010',
     title: 'YOU',
-    description: 'Welcome\nTo The Bridge\nBetween Us',
+    description: 'Welcome Here,\nThis Will Be\nThe Bridge Between Us',
     label: 'MEETS'
   },
   {
@@ -116,16 +116,14 @@ const ParticleCard = ({
     timeoutsRef.current = [];
     magnetismAnimationRef.current?.kill();
 
+    // Immediately stop any GSAP tweens for particles and remove them from DOM
     particlesRef.current.forEach(particle => {
-      gsap.to(particle, {
-        scale: 0,
-        opacity: 0,
-        duration: 0.3,
-        ease: 'back.in(1.7)',
-        onComplete: () => {
-          particle.parentNode?.removeChild(particle);
-        }
-      });
+      try {
+        gsap.killTweensOf(particle);
+      } catch (e) {
+        /* ignore */
+      }
+      particle.parentNode?.removeChild(particle);
     });
     particlesRef.current = [];
   }, []);
@@ -142,7 +140,8 @@ const ParticleCard = ({
         if (!isHoveredRef.current || !cardRef.current) return;
 
         const clone = particle.cloneNode(true);
-        cardRef.current.appendChild(clone);
+        const innerContainer = cardRef.current.querySelector('.magic-bento-card__inner') || cardRef.current;
+        innerContainer.appendChild(clone);
         particlesRef.current.push(clone);
 
         gsap.fromTo(clone, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.7)' });
@@ -275,7 +274,8 @@ const ParticleCard = ({
         z-index: 1000;
       `;
 
-      element.appendChild(ripple);
+      const rippleContainer = element.querySelector('.magic-bento-card__inner') || element;
+      rippleContainer.appendChild(ripple);
 
       gsap.fromTo(
         ripple,
@@ -484,6 +484,7 @@ const MagicBento = ({
   glowColor = DEFAULT_GLOW_COLOR,
   clickEffect = true,
   enableMagnetism = false,
+  cardsOpacity = 1,
   // new props to match ProfileCard appearance
   cardColor = null,
   innerGradient = null,
@@ -536,6 +537,8 @@ const MagicBento = ({
   const renderFaces = useCallback(
     card => {
       const isCreativity = card.label === 'CREATIVITY';
+      const hasNewline = typeof card.description === 'string' && card.description.includes('\n');
+
       return (
         <div className="magic-bento-card__inner">
           <div className="magic-bento-card__face magic-bento-card__face--front">
@@ -548,7 +551,7 @@ const MagicBento = ({
           >
             <div className="magic-bento-card__content">
               <h2 className="magic-bento-card__title">{card.title}</h2>
-              <p className="magic-bento-card__description">{card.description}</p>
+              <p className={`magic-bento-card__description ${hasNewline ? 'has-newline' : ''}`}>{card.description}</p>
             </div>
             {isCreativity && (
                 <div className="magic-bento-card__cta-block">
@@ -583,13 +586,13 @@ const MagicBento = ({
         />
       )}
 
-      <BentoCardGrid gridRef={gridRef} style={{ backgroundImage: innerGradient ?? undefined, '--behind-glow-color': behindGlowColor ?? undefined }}>
+      <BentoCardGrid gridRef={gridRef} style={{ backgroundImage: innerGradient ?? undefined, '--behind-glow-color': behindGlowColor ?? undefined, opacity: cardsOpacity }}>
         {cardData.map((card, index) => {
           const baseClassName = `magic-bento-card ${textAutoHide ? 'magic-bento-card--text-autohide' : ''} ${enableBorderGlow ? 'magic-bento-card--border-glow' : ''}`;
           const cardProps = {
             className: baseClassName,
             style: {
-              backgroundColor: cardColor ?? card.color,
+              '--card-bg': cardColor ?? card.color,
               '--glow-color': glowColor
             }
           };
@@ -700,7 +703,8 @@ const MagicBento = ({
                     z-index: 1000;
                   `;
 
-                  el.appendChild(ripple);
+                  const rippleContainer = el.querySelector('.magic-bento-card__inner') || el;
+                  rippleContainer.appendChild(ripple);
 
                   gsap.fromTo(
                     ripple,

@@ -346,8 +346,7 @@ void main() {
     spotlightSoftness,
     spotlightOpacity,
     distortAmount,
-    shineDirection,
-    opacity
+    shineDirection
   ]);
 
   return (

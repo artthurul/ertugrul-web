@@ -35,7 +35,8 @@ const ProfileCardComponent = ({
   status = 'Online',
   contactText = 'Contact',
   showUserInfo = true,
-  onContactClick
+  onContactClick,
+  onHoverChange
 }) => {
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
@@ -177,6 +178,12 @@ const ProfileCardComponent = ({
 
       shell.classList.add('active');
       shell.classList.add('entering');
+      // notify parent that hover started
+      try {
+        onHoverChange?.(true);
+      } catch (e) {
+        /* ignore */
+      }
       if (enterTimerRef.current) window.clearTimeout(enterTimerRef.current);
       enterTimerRef.current = window.setTimeout(() => {
         shell.classList.remove('entering');
@@ -192,6 +199,12 @@ const ProfileCardComponent = ({
     const shell = shellRef.current;
     if (!shell || !tiltEngine) return;
 
+    // notify parent that hover ended immediately
+    try {
+      onHoverChange?.(false);
+    } catch (e) {
+      /* ignore */
+    }
     tiltEngine.toCenter();
 
     const checkSettle = () => {

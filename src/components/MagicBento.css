@@ -16,6 +16,7 @@
   padding: 0.75em;
   max-width: 32em;
   font-size: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
+  transition: opacity 780ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .magic-bento-card {
@@ -25,8 +26,7 @@
   width: 100%;
   max-width: 100%;
   border-radius: 20px;
-  border: 1px solid var(--border-color);
-  background: var(--background-dark);
+  background: transparent; /* visuals moved into inner so whole object flips */
   font-family: "Droid Sans Mono", "Droid Sans", monospace;
   font-weight: 300;
   overflow: hidden;
@@ -52,6 +52,9 @@
   transform-style: preserve-3d;
   transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
   will-change: transform;
+  /* move the visible border into the inner so it rotates with the faces */
+  border: 1px solid var(--border-color);
+  border-radius: inherit;
 }
 
 .magic-bento-card:hover .magic-bento-card__inner {
@@ -68,10 +71,12 @@
   justify-content: center;
   backface-visibility: hidden;
   border-radius: inherit;
-  background: inherit;
+  /* use CSS variable so the card background is provided to faces and flips with them */
+  background: var(--card-bg, var(--background-dark));
   color: var(--white);
   box-shadow: inherit;
   text-align: center;
+  z-index: 2; /* ensure faces sit above inner::after glow */
 }
 
 .magic-bento-card__face--back {
@@ -188,6 +193,17 @@
   line-clamp: var(--clamp-desc);
 }
 
+/* If description contains explicit newlines, allow it to expand instead of clamping */
+.magic-bento-card--text-autohide .magic-bento-card__description.has-newline {
+  display: block !important;
+  -webkit-box-orient: initial !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+  white-space: pre-wrap; /* keep original newline handling */
+}
+
 @media (max-width: 599px) {
   .card-grid {
     grid-template-columns: 1fr;
@@ -232,7 +248,8 @@
 }
 
 /* Border glow effect */
-.magic-bento-card--border-glow::after {
+/* Move the border glow visual into the inner so it participates in the 3D flip */
+.magic-bento-card__inner::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -258,11 +275,12 @@
   z-index: 1;
 }
 
-.magic-bento-card--border-glow:hover::after {
+/* Hover effect for cards that opt into border glow (keep selector for compatibility) */
+.magic-bento-card--border-glow .magic-bento-card__inner::after {
   opacity: 1;
 }
 
-.magic-bento-card--border-glow:hover {
+.magic-bento-card--border-glow:hover .magic-bento-card__inner {
   box-shadow:
     0 4px 20px rgba(46, 24, 78, 0.4),
     0 0 30px var(--purple-glow);
