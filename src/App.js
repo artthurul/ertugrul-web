@@ -7,11 +7,18 @@
  * with Three.js for a futuristic user experience.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import ParticleBackground from './components/ParticleBackground';
+import SplashPage from './components/SplashPage';
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
+  if (showSplash) {
+    return <SplashPage onComplete={() => setShowSplash(false)} />;
+  }
+
   return (
     <div className="main-container">
       <ParticleBackground />
