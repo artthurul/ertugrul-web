@@ -192,7 +192,7 @@ const ProfileCardComponent = ({
       const { x, y } = getOffsets(event, shell);
       tiltEngine.setTarget(x, y);
     },
-    [tiltEngine]
+    [tiltEngine, onHoverChange]
   );
 
   const handlePointerLeave = useCallback(() => {
@@ -219,7 +219,7 @@ const ProfileCardComponent = ({
     };
     if (leaveRafRef.current) cancelAnimationFrame(leaveRafRef.current);
     leaveRafRef.current = requestAnimationFrame(checkSettle);
-  }, [tiltEngine]);
+  }, [tiltEngine, onHoverChange]);
 
   const handleDeviceOrientation = useCallback(
     event => {

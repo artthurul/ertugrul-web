@@ -127,8 +127,8 @@ const SplashPage = ({ onComplete }) => {
         manualMode={false}
         blurAmount={3}
         borderColor="#5227FF"
-        pauseBetweenAnimations={1}
-        size="2.25rem"
+        pauseBetweenAnimations={1.5}
+        size="2.35rem"
         style={{ left: `${tfPos.left}px`, bottom: `${tfPos.bottom}px` }}
         hoverOpacity={isHovering ? bgOpacity : 1}
       />
