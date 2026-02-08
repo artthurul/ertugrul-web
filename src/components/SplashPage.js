@@ -27,7 +27,6 @@ const SplashPage = ({ onComplete }) => {
   }), []);
 
   const [bgOpacity, setBgOpacity] = useState(bgConfig.opacity);
-  const [isHovering, setIsHovering] = useState(false);
   const splashRef = useRef(null);
   const profileWrapRef = useRef(null);
   const magicWrapRef = useRef(null);
@@ -61,16 +60,13 @@ const SplashPage = ({ onComplete }) => {
     setTfPos({ left, bottom });
   }, []);
 
-  const handleHoverChange = isHover => {
-    setIsHovering(isHover);
+  const handleHoverChange = useCallback(isHover => {
     if (isHover) {
-      // immediately lower opacity when hovering the profile
       setBgOpacity(0.12);
     } else {
-      // immediately restore target opacity; CSS will animate the change smoothly
       setBgOpacity(bgConfig.opacity);
     }
-  };
+  }, [bgConfig.opacity]);
 
   useEffect(() => {
     updateTrueFocusPosition();
@@ -118,7 +114,7 @@ const SplashPage = ({ onComplete }) => {
         <MagicBento
           cardColor={bgConfig.cardColor}
           onComplete={onComplete}
-          cardsOpacity={isHovering ? bgOpacity : 1}
+          cardsOpacity={bgOpacity}
         />
       </div>
       {/* TrueFocus animated text positioned relative to leftmost card and profile bottom */}
@@ -128,9 +124,9 @@ const SplashPage = ({ onComplete }) => {
         blurAmount={3}
         borderColor="#5227FF"
         pauseBetweenAnimations={1.5}
-        size="2.35rem"
+        size="2.5rem"
         style={{ left: `${tfPos.left}px`, bottom: `${tfPos.bottom}px` }}
-        hoverOpacity={isHovering ? bgOpacity : 1}
+        hoverOpacity={bgOpacity}
       />
     </div>
   );
